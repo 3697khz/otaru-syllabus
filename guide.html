@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>利用ガイドライン | 小樽商大履修支援サイト</title>
+  <link rel="stylesheet" href="./styles/site.css">
+  <style>
+    .guide-shell{width:min(980px,calc(100% - 32px));margin:0 auto;padding:24px 0 56px}
+    .guide-header{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:16px}
+    .guide-header h1{margin-top:4px}
+    .guide-back{flex:0 0 auto}
+    .guide-lead{margin:0 0 16px;padding:16px 18px;border:1px solid #ead7b5;border-left:4px solid var(--amber);border-radius:9px;background:var(--amber-soft)}
+    .guide-lead p{margin:5px 0 0}
+    .guide-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 16px;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+    .guide-nav a{display:block;padding:9px 11px;border-radius:7px;color:var(--accent);background:var(--surface-soft);font-weight:700;text-decoration:none}
+    .guide-nav a:hover{text-decoration:underline}
+    .guide-section{margin-top:14px;padding:20px;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:var(--shadow)}
+    .guide-section h2{margin:0 0 10px;color:var(--text);font-size:1.15rem}
+    .guide-section h3{margin:18px 0 7px;font-size:.98rem}
+    .guide-section p{margin:7px 0}
+    .guide-section ul,.guide-section ol{margin:8px 0;padding-left:1.5rem}
+    .guide-section li+li{margin-top:5px}
+    .guide-note{margin:12px 0;padding:11px 13px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:6px}
+    .guide-warning{margin:12px 0;padding:11px 13px;border-left:3px solid var(--amber);background:var(--amber-soft);border-radius:6px}
+    .guide-table-wrap{overflow-x:auto;margin-top:10px}
+    .guide-table{width:100%;border-collapse:collapse;font-size:.9rem}
+    .guide-table th,.guide-table td{padding:9px 10px;border:1px solid var(--line);vertical-align:top;text-align:left}
+    .guide-table th{background:var(--surface-soft)}
+    .guide-footer{margin-top:18px;color:var(--muted);font-size:.88rem}
+    @media(max-width:640px){.guide-shell{width:calc(100% - 16px);padding-top:10px}.guide-header{display:grid}.guide-nav{grid-template-columns:1fr}.guide-section{padding:15px}}
+  </style>
+</head>
+<body>
+  <main class="guide-shell">
+    <header class="guide-header">
+      <div>
+        <p class="eyebrow">USAGE GUIDELINES</p>
+        <h1>利用ガイドライン</h1>
+        <p id="guideSummary">小樽商大履修支援サイトの使い方と、各機能を利用するときの注意点をまとめています。</p>
+      </div>
+      <a class="source-link guide-back" href="./index.html">履修支援サイトへ戻る</a>
+    </header>
+
+    <aside class="guide-lead" aria-labelledby="importantHeading">
+      <strong id="importantHeading">最初に確認してください</strong>
+      <p>このサイトは、小樽商科大学の履修計画とシラバス確認を補助する個人制作の非公式ツールです。大学公式サービスではありません。</p>
+      <p><strong>履修登録、卒業要件、開講情報、単位認定などの最終判断には、大学公式資料、Campus Square、manaba、教務課等の案内を優先してください。</strong></p>
+    </aside>
+
+    <nav class="guide-nav" aria-label="ガイドライン目次">
+      <a href="#basic">1. 基本的な使い方</a>
+      <a href="#search">2. シラバス検索・タグ</a>
+      <a href="#plan">3. 比較・履修候補・時間割</a>
+      <a href="#degree">4. 卒業要件・履修チェック</a>
+      <a href="#records">5. 取得済み・認定・他大学授業</a>
+      <a href="#privacy">6. 保存・共有・プライバシー</a>
+      <a href="#updates">7. データと更新</a>
+      <a href="#faq">8. よくある質問</a>
+    </nav>
+
+    <section id="basic" class="guide-section">
+      <h2>1. 基本的な使い方</h2>
+      <ol>
+        <li>シラバス検索で科目を探します。</li>
+        <li>気になる科目は「比較」で最大4科目まで並べて確認できます。</li>
+        <li>履修したい科目は「候補に追加」します。</li>
+        <li>履修候補・時間割で曜限重複や履修上の注意を確認します。</li>
+        <li>必要に応じて取得済み科目や単位認定を入力し、卒業要件・履修チェックを参考にします。</li>
+      </ol>
+      <div class="guide-note"><strong>「候補に追加」は大学への履修登録ではありません。</strong> このサイト内の履修計画に追加するだけです。実際の履修登録は大学が指定する方法で行ってください。</div>
+    </section>
+
+    <section id="search" class="guide-section">
+      <h2>2. シラバス検索・タグ</h2>
+      <p>科目名、教員名、評価方法、備考、授業内容などをキーワード検索できます。学期、曜限、履修体系、開講学科、授業形態、評価・実用タグなどでも絞り込めます。</p>
+
+      <h3>検索から自動的に除外される科目</h3>
+      <p>研究指導、外国語科目、教職共通科目については、学年設定や検索設定に応じて初期状態で除外される場合があります。必要な場合は検索画面のチェック項目から表示してください。</p>
+
+      <h3>評価・実用タグについて</h3>
+      <p>「試験なし」「小テストあり」「PC使用」「英語開講」「人数制限・抽選あり」などの一部タグは、シラバス本文の記述を機械的に解析して付与しています。</p>
+      <div class="guide-warning"><strong>タグは参考情報です。</strong> シラバスの表現によって、誤判定や見落としが生じる場合があります。タグだけで履修を決めず、科目名から大学公式シラバスを開いて元の記載も確認してください。</div>
+
+      <h3>AND / OR</h3>
+      <p>複数タグを選んだとき、ANDは「選択したタグをすべて含む科目」、ORは「選択したタグのいずれかを含む科目」を表示します。</p>
+    </section>
+
+    <section id="plan" class="guide-section">
+      <h2>3. 比較・履修候補・時間割</h2>
+      <p>比較機能では最大4科目について、教員、曜限、単位、評価方法、授業形態、履修体系、卒業要件上の算入先などを横並びで確認できます。</p>
+      <p>履修候補に追加した科目は時間割へ反映され、既に追加した科目との曜限重複、同一授業の別クラス、既修得科目との重複、把握できる範囲の履修制限などを警告します。</p>
+      <div class="guide-warning"><strong>警告が出ないことは、履修可能であることの保証ではありません。</strong> シラバスに記載されていない制限や個別条件、抽選、学科・年次ごとの取扱いなどが存在する場合があります。</div>
+      <p>集中講義、特別日程、曜限未定の科目は、通常の曜日×時限の表とは別の欄に表示される場合があります。</p>
+    </section>
+
+    <section id="degree" class="guide-section">
+      <h2>4. 卒業要件・履修チェック</h2>
+      <p>2026年度「履修の手引き」の昼間コース・2021年度以降入学者（グローカルコース除く）を基準に、入力された取得済み単位と履修候補から参考値を計算します。</p>
+
+      <h3>この機能の対象</h3>
+      <p>対象年度のカリキュラムに通常入学し、標準的な履修を行っている学生を主な対象としています。</p>
+      <div class="guide-warning">
+        <strong>次の場合は卒業判定機能の利用を推奨しません。</strong>
+        <ul>
+          <li>編入学、再入学、転科</li>
+          <li>留学、交換留学</li>
+          <li>他大学との単位互換や特殊な単位認定</li>
+          <li>教職課程などの資格課程</li>
+          <li>旧カリキュラム、経過措置</li>
+          <li>その他、個別の履修・単位取扱いがある場合</li>
+        </ul>
+        <p>これらの場合でも、シラバス検索、授業比較、時間割作成など卒業判定以外の機能は利用できます。</p>
+      </div>
+
+      <h3>「取得済み」と「見込み」</h3>
+      <p>取得済み単位と、履修候補や標準的な今後の履修を含めた見込みは別に扱います。見込みに含まれている単位は、実際に修得したことを意味しません。</p>
+
+      <h3>3・4年次の標準設定</h3>
+      <p>3・4年次では、研究指導や外国語について標準的な履修を前提とした試算を行える設定があります。研究指導の仮想時間割や将来の研究指導12単位、外国語の不足単位などが見込みへ反映される場合があります。</p>
+      <p>外国語14単位には、2外国語のⅠ・ⅡA/ⅡBの組合せ要件があり、単位数だけでは完全には判定できません。</p>
+
+      <h3>CAP・遠隔授業・認定単位</h3>
+      <p>CAP、遠隔授業60単位枠、認定単位の上限なども入力内容から参考計算します。ただし、個々の科目や認定単位の扱いが公式情報と一致しているかを必ず確認してください。</p>
+    </section>
+
+    <section id="records" class="guide-section">
+      <h2>5. 取得済み科目・単位認定・他大学授業</h2>
+      <p>卒業要件の試算を精密にするため、取得済み科目、認定単位、他大学で履修予定の授業を入力できます。</p>
+      <div class="guide-table-wrap">
+        <table class="guide-table">
+          <thead><tr><th>入力</th><th>用途</th><th>注意</th></tr></thead>
+          <tbody>
+            <tr><td>取得済み科目</td><td>既修得科目の重複確認と卒業要件への算入</td><td>成績表と一致する科目を登録してください。</td></tr>
+            <tr><td>単位認定</td><td>認定済み単位を卒業要件へ反映</td><td>算入区分は大学の正式な認定結果を優先してください。</td></tr>
+            <tr><td>他大学授業</td><td>単位互換等の履修予定を見込みとして時間割・卒業試算へ反映</td><td>正式認定前の見込みであり、卒業判定の確定情報ではありません。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="privacy" class="guide-section">
+      <h2>6. 保存・共有・プライバシー</h2>
+      <h3>端末内保存</h3>
+      <p>履修候補、取得済み科目、単位認定、学年・学科設定などは原則としてブラウザのlocalStorageに保存します。アカウントによるクラウド同期は行いません。</p>
+      <ul>
+        <li>別の端末や別のブラウザには自動同期されません。</li>
+        <li>ブラウザのサイトデータを削除すると、保存内容も消える場合があります。</li>
+        <li>必要に応じてバックアップJSONを書き出してください。</li>
+      </ul>
+
+      <h3>共有URL</h3>
+      <p>共有URLでは、選択した履修データをURLの <code>#</code> 以降に格納します。通常のHTTPリクエストではこの部分はサーバーへ送られません。</p>
+      <div class="guide-warning"><strong>共有データは暗号化されていません。</strong> URLを受け取った人は、そこに含めた履修候補、学年・学科設定、取得状況などを読み取れます。必要のない個人情報は共有項目に含めないでください。</div>
+
+      <h3>バックアップJSON</h3>
+      <p>バックアップJSONには個人の履修情報が含まれます。自分のデータ保管用として扱い、公開リポジトリやSNS等へアップロードしないでください。</p>
+    </section>
+
+    <section id="updates" class="guide-section">
+      <h2>7. データと更新</h2>
+      <p>科目情報や履修ルールは大学の公開資料をもとに整理していますが、大学側でシラバスや履修案内が更新された場合、このサイトへの反映まで時間差が生じる可能性があります。</p>
+      <p>検索画面には収録科目数とデータ更新日時を表示しています。重要な履修判断をするときは、更新日時と大学公式資料の両方を確認してください。</p>
+      <p><a class="source-link" href="https://www.otaru-uc.ac.jp/student/syllabus/" target="_blank" rel="noreferrer">小樽商科大学の公式シラバス・履修資料を確認する</a></p>
+      <p>表示や判定に誤りが疑われる場合は、公式資料を確認したうえで、個人情報を含めずにGitHub Issuesから報告できます。</p>
+      <p><a class="source-link" href="https://github.com/gid0u/otaru-syllabus/issues" target="_blank" rel="noreferrer">GitHub Issuesを開く</a></p>
+    </section>
+
+    <section id="faq" class="guide-section">
+      <h2>8. よくある質問</h2>
+
+      <h3>卒業要件が「充足」と表示されれば卒業できますか？</h3>
+      <p>確定ではありません。このサイトの表示は参考計算です。正式な卒業要件の充足状況は大学公式情報で確認してください。</p>
+
+      <h3>履修候補に追加すると履修登録されますか？</h3>
+      <p>されません。このサイト内の時間割・履修計画に追加されるだけです。</p>
+
+      <h3>スマホとPCで自動同期されますか？</h3>
+      <p>されません。必要であればバックアップJSONや共有機能を利用してください。</p>
+
+      <h3>検索したい科目が出てきません。</h3>
+      <p>研究指導、外国語、教職共通科目の除外設定、学期、曜限、タグなどの検索条件を確認し、「検索条件をリセット」も試してください。</p>
+
+      <h3>タグと公式シラバスの内容が違います。</h3>
+      <p>タグの一部は機械的に抽出しているため、誤判定する場合があります。公式シラバスの本文を優先してください。</p>
+    </section>
+
+    <footer class="guide-footer">
+      <p>このガイドラインはサイトの機能と対象範囲を説明するためのものであり、小樽商科大学の公式規程・履修案内を代替するものではありません。</p>
+      <p><a class="source-link" href="./index.html">履修支援サイトへ戻る</a></p>
+    </footer>
+  </main>
+</body>
+</html>
