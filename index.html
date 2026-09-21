@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <title>小樽商科大学 2026 履修支援</title>
+    
+  
+
+
+    
+
+
+
+
+
+
+
+
+
+    <link rel="stylesheet" href="./styles/site.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="site-subject" aria-labelledby="siteSubjectTitle">
+        <div class="site-subject-copy">
+          <div class="site-subject-kicker">小樽商大履修支援サイト</div>
+          <h1 id="siteSubjectTitle">インデックス</h1>
+        </div>
+      </header>
+      <aside class="site-notice" aria-label="このサイトについての注意">
+        <div class="site-notice-heading">
+          <div>
+            <div class="site-notice-title">このサイトについて</div>
+            <p class="site-notice-lead">小樽商科大学の履修計画・シラバス確認を補助する、個人制作の非公式ツールです。大学公式サービスではありません。</p>
+          </div>
+        </div>
+
+        <div class="site-notice-list">
+          <section class="site-notice-item">
+            <h2>履修情報は大学公式で最終確認</h2>
+            <p>履修登録、卒業要件、開講情報などは変更される場合があります。<strong>最終的な判断は大学公式資料やCampus Square等を確認してください。</strong></p>
+          </section>
+          <section class="site-notice-item">
+            <h2>シラバスだけでは分からないことがあります</h2>
+            <p>授業の雰囲気、実際の難易度、進め方、課題量、教員とのやり取りなどは、公開情報だけでは把握できず、実際に受講しないと分からない部分があります。</p>
+          </section>
+          <section class="site-notice-item site-notice-item-privacy">
+            <h2>プライバシーには配慮しますが、完全ではありません</h2>
+            <p>お気に入り、時間割、取得済み単位などは原則としてこの端末のブラウザ内に保存します。ただし完全な秘匿や安全は保証できません。<strong>見られたら困る情報は入力・共有・公開しないでください。</strong></p>
+          </section>
+        </div>
+
+      </aside>
+      <section class="toolbar css-collapsible" aria-label="検索条件">
+        <input class="panel-toggle-control" id="panel-toggle-search" type="checkbox">
+        <div class="toolbar-head">
+          <div class="title-block">
+            <p class="eyebrow">COURSE SEARCH</p>
+            <div class="panel-heading-title-row">
+              <h2>シラバス検索</h2>
+              <label class="section-collapse-toggle" for="panel-toggle-search" aria-label="履修支援・シラバス検索を開閉" title="折りたたむ / 開く">
+                <span class="collapse-label-open">折りたたむ</span><span class="collapse-label-closed">開く</span><span class="collapse-icon-open" aria-hidden="true">−</span><span class="collapse-icon-closed" aria-hidden="true">＋</span>
+              </label>
+            </div>
+            <p id="sourceNote"></p>
+          </div>
+        </div>
+
+        <div class="search-line">
+          <label class="search-box">
+            <span>検索</span>
+            <input id="keywordInput" type="search" placeholder="科目名・教員名・評価方法・備考">
+          </label>
+          <label class="select-box">
+            <span>学期</span>
+            <select id="semesterSelect"></select>
+          </label>
+          <button id="clearButton" class="ghost-button" type="button">検索条件をリセット</button>
+        </div>
+
+        <div class="search-exclusion-row">
+          <label class="check-row">
+            <input id="includeSeminarSearchToggle" type="checkbox">
+            <span>研究指導（3・4年ゼミ）を検索結果に含める</span>
+          </label>
+          <label class="check-row">
+            <input id="includeForeignSearchToggle" type="checkbox">
+            <span>外国語科目を検索結果に含める</span>
+          </label>
+          <label class="check-row">
+            <input id="excludeTeacherTrainingToggle" type="checkbox" checked>
+            <span>教職共通科目を検索結果から除外する</span>
+          </label>
+          <span class="filter-help">研究指導はデフォルトで除外します。3・4年次では外国語科目もデフォルトで除外します。教職の除外対象は「教職共通科目」のみで、通常の学科科目は残します。基礎ゼミナールは通常どおり表示します。</span>
+        </div>
+
+        <div class="filter-grid">
+          <section class="filter-group" aria-labelledby="courseTrackHeading">
+            <h2 id="courseTrackHeading">コース</h2>
+            <div id="courseTrackFilters" class="chip-list"></div>
+          </section>
+
+          <section class="filter-group" aria-labelledby="curriculumGroupHeading">
+            <h2 id="curriculumGroupHeading">履修体系</h2>
+            <div id="curriculumGroupFilters" class="chip-list"></div>
+          </section>
+
+          <section class="filter-group" aria-labelledby="subcategoryHeading">
+            <h2 id="subcategoryHeading">細目</h2>
+            <div id="subcategoryFilters" class="chip-list"></div>
+          </section>
+
+          <section class="filter-group" aria-labelledby="commonFieldHeading">
+            <h2 id="commonFieldHeading">共通科目の系</h2>
+            <div id="commonFieldFilters" class="chip-list"></div>
+          </section>
+
+          <section class="filter-group" aria-labelledby="departmentHeading">
+            <h2 id="departmentHeading">開講学科</h2>
+            <div id="departmentFilters" class="chip-list"></div>
+          </section>
+
+          <section class="filter-group" aria-labelledby="timeHeading">
+            <h2 id="timeHeading">曜限</h2>
+            <div class="time-grid">
+              <div id="dayFilters" class="segmented"></div>
+              <div id="periodFilters" class="chip-list compact"></div>
+            </div>
+            <label class="check-row">
+              <input id="noPeriodToggle" type="checkbox">
+              <span>曜限なし・日程未定</span>
+            </label>
+            <label class="check-row">
+              <input id="multiPeriodToggle" type="checkbox">
+              <span>複数曜限</span>
+            </label>
+          </section>
+
+          <section class="filter-group wide" aria-labelledby="methodTagHeading">
+            <h2 id="methodTagHeading">授業形態</h2>
+            <div id="methodTagFilters" class="chip-list"></div>
+          </section>
+
+          <section class="filter-group wide" aria-labelledby="practicalHeading">
+            <div class="filter-title-row">
+              <h2 id="practicalHeading">評価・実用タグ</h2>
+              <div class="tag-logic" aria-label="タグ検索条件">
+                <span>選択タグ</span>
+                <button id="tagAndButton" class="active" type="button">AND</button>
+                <button id="tagOrButton" type="button">OR</button>
+              </div>
+            </div>
+            <div id="tagFilters" class="chip-list"></div>
+            <p class="filter-help">AND: 選んだタグをすべて含む授業 / OR: どれか1つを含む授業</p>
+          </section>
+        </div>
+      </section>
+
+      <section class="degree-panel css-collapsible" aria-label="卒業要件・履修チェック">
+        <input class="panel-toggle-control" id="panel-toggle-degree" type="checkbox">
+        <div class="degree-head">
+          <div>
+            <p class="eyebrow">HANDBOOK CHECK</p>
+            <div class="panel-heading-title-row">
+              <h2>卒業要件・履修チェック</h2>
+              <label class="section-collapse-toggle" for="panel-toggle-degree" aria-label="卒業要件・履修チェックを開閉" title="折りたたむ / 開く">
+                <span class="collapse-label-open">折りたたむ</span><span class="collapse-label-closed">開く</span><span class="collapse-icon-open" aria-hidden="true">−</span><span class="collapse-icon-closed" aria-hidden="true">＋</span>
+              </label>
+            </div>
+            <p>2026年度「履修の手引き」の昼間コース・2021年度以降入学者（グローカルコース除く）を基準に試算します。</p>
+          </div>
+          <div class="degree-head-actions">
+            <a class="source-link" href="https://www.otaru-uc.ac.jp/student/syllabus/" target="_blank" rel="noreferrer">大学公式資料</a>
+            <button id="resetProfileButton" class="ghost-button" type="button">入力をクリア</button>
+          </div>
+        </div>
+
+        <aside class="degree-scope-notice" aria-label="卒業判定機能の対象範囲">
+          <strong>卒業判定機能の対象範囲</strong>
+          <p>この判定は、対象年度のカリキュラムに通常入学し、標準的な履修を行っている学生を主な対象とした参考機能です。</p>
+          <p><strong>編入学・再入学・転科・留学・交換留学・他大学との単位互換・特殊な単位認定・教職課程などの資格課程・旧カリキュラムや経過措置の適用・その他の個別取扱いがある場合は、卒業判定機能の利用を推奨しません。</strong>卒業要件や単位の算入区分は、大学公式資料、Campus Square、教務課等で確認してください。</p>
+          <p class="degree-scope-note">シラバス検索・授業比較・時間割作成など、卒業判定以外の機能は利用できます。</p>
+        </aside>
+
+        <div class="profile-grid">
+          <label class="profile-field">
+            <span>入学年度</span>
+            <select id="admissionYearInput">
+              <option value="2026">2026年度</option>
+              <option value="2025">2025年度</option>
+              <option value="2024">2024年度</option>
+              <option value="2023">2023年度</option>
+              <option value="2022">2022年度</option>
+              <option value="2021">2021年度</option>
+            </select>
+          </label>
+          <label class="profile-field">
+            <span>現在の年次</span>
+            <select id="currentYearInput">
+              <option value="1">1年次</option>
+              <option value="2">2年次</option>
+              <option value="3">3年次</option>
+              <option value="4">4年次</option>
+            </select>
+          </label>
+          <label id="profileDepartmentField" class="profile-field">
+            <span>所属学科</span>
+            <select id="profileDepartmentInput">
+              <option value="">選択してください</option>
+              <option value="経済学科">経済学科</option>
+              <option value="商学科">商学科</option>
+              <option value="商学科（英語専修）">商学科（英語専修）</option>
+              <option value="企業法学科">企業法学科</option>
+              <option value="社会情報学科">社会情報学科</option>
+            </select>
+            <small id="profileDepartmentNote" class="profile-field-note">1年次は学科配属前のため、学科未所属として扱います。</small>
+          </label>
+          <label id="hypotheticalDepartmentField" class="profile-field">
+            <span>卒業シミュ用の想定学科（任意）</span>
+            <select id="hypotheticalDepartmentInput">
+              <option value="">指定しない（学科未確定のまま）</option>
+              <option value="経済学科">経済学科</option>
+              <option value="商学科">商学科</option>
+              <option value="商学科（英語専修）">商学科（英語専修）</option>
+              <option value="企業法学科">企業法学科</option>
+              <option value="社会情報学科">社会情報学科</option>
+            </select>
+            <small class="profile-field-note">1年次だけ使用します。実際の所属学科ではなく、進学した場合の卒業要件を仮計算するための設定です。</small>
+          </label>
+          <label class="profile-field">
+            <span>前年の「不可」単位（0点不可を除く）</span>
+            <input id="failedCarryInput" type="number" min="0" max="8" step="1" inputmode="numeric" value="0">
+          </label>
+        </div>
+
+        <div id="upperYearPresetRow" class="upper-year-preset">
+          <div class="upper-year-preset-head">
+            <div>
+              <strong>3・4年次の自動扱い</strong>
+              <p id="upperYearPresetNote">ゼミ・外国語に関する標準設定をまとめて管理します。</p>
+            </div>
+            <label class="check-row upper-year-preset-master">
+              <input id="upperYearPresetToggle" type="checkbox">
+              <span>5項目をまとめて適用</span>
+            </label>
+          </div>
+          <div class="upper-year-option-grid">
+            <label class="check-row">
+              <input id="seminarScheduleToggle" type="checkbox">
+              <span><strong>ゼミ自動履修</strong><small>標準曜限（3年：木4・5／4年：火4・5）を仮想時間割へ自動配置</small></span>
+            </label>
+            <label class="check-row">
+              <input id="seminarPlanToggle" type="checkbox">
+              <span><strong>ゼミ履修見込み</strong><small>研究指導12単位を卒業見込みへ自動算入。4年次はCAPにも12単位算入</small></span>
+            </label>
+            <label class="check-row">
+              <input id="excludeSeminarSearchToggle" type="checkbox">
+              <span><strong>研究指導を検索から除外</strong><small>研究指導（3・4年ゼミ）を通常の検索結果から隠します。基礎ゼミナールは対象外です</small></span>
+            </label>
+            <label class="check-row">
+              <input id="foreignPlanToggle" type="checkbox">
+              <span><strong>外国語を修得済み相当として扱う</strong><small>14単位に足りない分を卒業見込み上だけ補完し、取得済み単位欄は変更しません</small></span>
+            </label>
+            <label class="check-row">
+              <input id="excludeForeignSearchToggle" type="checkbox">
+              <span><strong>外国語を検索から除外</strong><small>外国語科目と外国語系フィルターを通常の検索結果から隠します</small></span>
+            </label>
+          </div>
+        </div>
+
+        <details class="local-data-details">
+          <summary>端末内データの管理</summary>
+          <div class="local-data-body">
+            <div class="local-data-explain">
+              <strong>個人の履修情報はサーバーへ保存しません</strong>
+              <p>お気に入り・時間割・取得済み単位・単位認定・学年/学科・ゼミ設定は、このブラウザの localStorage に保存します。Cookieには保存しません。</p>
+              <p>別端末へ移す場合は、下のバックアップJSONを本人が手動でエクスポート／インポートしてください。</p>
+            </div>
+            <div class="local-data-actions">
+              <button id="exportLocalDataButton" class="ghost-button" type="button">バックアップJSONを書き出す</button>
+              <button id="importLocalDataButton" class="ghost-button" type="button">バックアップJSONを読み込む</button>
+              <input id="importLocalDataInput" class="is-visually-hidden" type="file" accept="application/json,.json">
+              <button id="clearLocalDataButton" class="danger-button" type="button">この端末の保存データを削除</button>
+            </div>
+            <p class="local-backup-warning">バックアップJSONには取得済み単位などが含まれます。共有用ではありません。本人の管理下で保管してください。</p>
+            <p id="localDataStatus" class="local-data-status" role="status" aria-live="polite"></p>
+          </div>
+        </details>
+
+        <details class="earned-details">
+          <summary>取得済み科目・単位を入力</summary>
+          <p class="degree-help">成績表を見ながら、取得済み科目を登録するか、科目単位で登録できない分を下の数値欄で補ってください。下の「単位認定」に登録する単位は重ねて入力しないでください。入力内容はこのブラウザに保存されます。</p>
+          <div class="credit-clear-actions">
+            <button id="clearEarnedCreditsButton" class="small-button" type="button">取得済み科目・単位を全解除</button>
+          </div>
+          <section class="acquired-course-manager" aria-label="取得済み科目の管理">
+            <h3>取得済み科目を科目単位で登録</h3>
+            <p class="degree-help">2026年度シラバスにある科目は、科目コードまたは科目名から登録できます。登録した科目は単位数と卒業要件の区分を自動集計し、再履修・同一授業・既修得条件の判定にも使います。<strong>ここで登録した科目分は、下の数値入力へ重ねて入力しないでください。</strong></p>
+            <div class="acquired-course-form">
+              <label class="profile-field">
+                <span>科目コードまたは科目名</span>
+                <input id="acquiredCourseInput" type="text" list="acquiredCourseDatalist" autocomplete="off" placeholder="例: 1200120 または 統計学（A）">
+                <datalist id="acquiredCourseDatalist"></datalist>
+              </label>
+              <button id="addAcquiredCourseButton" class="primary-button" type="button">取得済みに追加</button>
+            </div>
+            <p id="acquiredCourseHelp" class="acquired-course-help" role="status" aria-live="polite">過年度に廃止された科目など、2026年度データにない科目は従来の数値入力で補ってください。</p>
+            <div id="acquiredCourseStats" class="acquired-course-stats"></div>
+            <div id="acquiredCourseList" class="acquired-course-list"></div>
+          </section>
+          <div class="earned-groups">
+            <section class="earned-group">
+              <h3>共通科目・外国語</h3>
+              <div class="credit-input-grid">
+                <label><span>知（地）の基礎</span><input data-credit-key="knowledge" type="number" min="0" step="1" value="0"></label>
+                <label><span>人間と文化</span><input data-credit-key="humanCulture" type="number" min="0" step="1" value="0"></label>
+                <label><span>社会と人間</span><input data-credit-key="societyHuman" type="number" min="0" step="1" value="0"></label>
+                <label><span>自然と環境</span><input data-credit-key="natureEnvironment" type="number" min="0" step="1" value="0"></label>
+                <label><span>健康科学</span><input data-credit-key="health" type="number" min="0" step="1" value="0"></label>
+                <label><span>外国語科目</span><input data-credit-key="foreign" type="number" min="0" step="1" value="0"></label>
+                <label><span>その他の共通科目等</span><input data-credit-key="commonOther" type="number" min="0" step="1" value="0"></label>
+              </div>
+            </section>
+            <section class="earned-group">
+              <h3>学科科目</h3>
+              <p id="academicCreditModeNote" class="degree-help">1年次は所属学科が未確定のため、学科科目は「学科未確定」として入力します。</p>
+              <div class="credit-input-grid">
+                <label id="academicUnassignedCreditField"><span>学科未確定（1年次分）</span><input data-credit-key="academicUnassigned" type="number" min="0" step="1" value="0"></label>
+                <label class="classified-academic-credit"><span>自学科基幹科目</span><input data-credit-key="ownCore" type="number" min="0" step="1" value="0"></label>
+                <label class="classified-academic-credit"><span>自学科発展科目</span><input data-credit-key="ownAdvanced" type="number" min="0" step="1" value="0"></label>
+                <label class="classified-academic-credit"><span>その他学科・専門共通等</span><input data-credit-key="academicFlex" type="number" min="0" step="1" value="0"></label>
+                <label class="classified-academic-credit"><span>研究指導</span><input data-credit-key="research" type="number" min="0" step="1" value="0"></label>
+              </div>
+              <label class="check-row no-seminar-row">
+                <input id="noSeminarToggle" type="checkbox">
+                <span>ノンゼミ承認済みとして計算する</span>
+              </label>
+              <label id="noSeminarReplacementField" class="profile-field no-seminar-credit is-hidden">
+                <span>うちノンゼミ代替として確認する自学科学科科目</span>
+                <input data-credit-key="noSeminarReplacement" type="number" min="0" max="12" step="1" value="0">
+              </label>
+            </section>
+            <section class="earned-group">
+              <h3>上限制の確認</h3>
+              <div class="credit-input-grid">
+                <label><span>2023年度以降に修得した遠隔授業単位</span><input data-credit-key="remotePost2022" type="number" min="0" max="60" step="1" value="0"></label>
+              </div>
+              <p class="degree-help">2022年度までの遠隔授業単位は、60単位上限の対象外として扱います。</p>
+            </section>
+          </div>
+        </details>
+
+        <details class="recognition-details">
+          <summary>単位認定を反映</summary>
+          <p class="degree-help">入学前既修得、検定等、他大学との単位互換、留学で大学から正式に認定された単位を登録します。上の「取得済み単位」には、ここで登録する認定単位を重ねて入力しないでください。</p>
+          <div id="recognitionStats" class="recognition-stats"></div>
+          <div class="credit-clear-actions">
+            <button id="clearRecognitionsButton" class="small-button" type="button">単位認定を全解除</button>
+          </div>
+          <div class="recognition-form" aria-label="単位認定の追加">
+            <label class="profile-field">
+              <span>認定制度</span>
+              <select id="recognitionSourceInput">
+                <option value="prior">入学前の既修得単位</option>
+                <option value="exam">検定等・大学以外の学修</option>
+                <option value="interUniversity">他大学との単位互換</option>
+                <option value="studyAbroad">留学による単位互換</option>
+              </select>
+            </label>
+            <label class="profile-field recognition-name-field">
+              <span>認定名・読替科目</span>
+              <input id="recognitionLabelInput" type="text" placeholder="例: TOEIC → 英語ⅡA1 / 日商簿記2級 → 簿記原理">
+            </label>
+            <label class="profile-field">
+              <span>認定単位数</span>
+              <input id="recognitionCreditsInput" type="number" min="0.5" max="60" step="0.5" inputmode="decimal" value="2">
+            </label>
+            <label class="profile-field">
+              <span>卒業要件への算入先</span>
+              <select id="recognitionBucketInput">
+                <option value="unallocated">総単位のみ（区分未確定）</option>
+                <option value="knowledge">知（地）の基礎</option>
+                <option value="humanCulture">人間と文化</option>
+                <option value="societyHuman">社会と人間</option>
+                <option value="natureEnvironment">自然と環境</option>
+                <option value="health">健康科学</option>
+                <option value="foreign">外国語科目</option>
+                <option value="commonOther">その他の共通科目等</option>
+                <option value="academicUnassigned">学科科目（学科未確定）</option>
+                <option value="ownCore">自学科基幹科目</option>
+                <option value="ownAdvanced">自学科発展科目</option>
+                <option value="academicFlex">その他学科・専門共通等</option>
+              </select>
+            </label>
+            <label class="profile-field">
+              <span>本学の読替科目コード（任意）</span>
+              <input id="recognitionCourseCodeInput" type="text" inputmode="numeric" placeholder="例: 1300210">
+            </label>
+            <div class="recognition-flags">
+              <label class="check-row">
+                <input id="recognitionCapInput" type="checkbox">
+                <span>今年度CAPに算入する</span>
+              </label>
+              <label class="check-row">
+                <input id="recognitionRemoteInput" type="checkbox">
+                <span>遠隔授業60単位上限にも算入する</span>
+              </label>
+            </div>
+            <button id="addRecognitionButton" class="primary-button recognition-add-button" type="button">認定単位を追加</button>
+          </div>
+          <p id="recognitionSourceHelp" class="degree-help recognition-source-help"></p>
+          <div id="recognitionList" class="recognition-list"></div>
+          <p class="degree-help">4制度の認定単位は合算60単位が卒業所要単位への算入上限です。実際の認定区分はCampus Squareの成績・認定結果に合わせて選択してください。区分未確定の単位は卒業124単位の合計だけに仮算入し、個別区分の充足には使いません。</p>
+        </details>
+
+        <div id="degreeSummary" class="degree-summary"></div>
+        <div id="degreeAlerts" class="degree-alerts"></div>
+        <div class="requirement-table-wrap">
+          <table class="requirement-table">
+            <thead>
+              <tr><th>要件</th><th>必要</th><th>取得済み</th><th>候補を全て修得した場合</th><th>残り</th></tr>
+            </thead>
+            <tbody id="requirementRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="favorites-panel css-collapsible" aria-label="仮想時間割">
+        <input class="panel-toggle-control" id="panel-toggle-favorites" type="checkbox">
+        <div class="favorites-head">
+          <div>
+            <div class="panel-heading-title-row">
+              <h2>仮想時間割・履修候補</h2>
+              <label class="section-collapse-toggle" for="panel-toggle-favorites" aria-label="仮想時間割・履修候補を開閉" title="折りたたむ / 開く">
+                <span class="collapse-label-open">折りたたむ</span><span class="collapse-label-closed">開く</span><span class="collapse-icon-open" aria-hidden="true">−</span><span class="collapse-icon-closed" aria-hidden="true">＋</span>
+              </label>
+            </div>
+            <p id="favoriteSummary">0件</p>
+          </div>
+          <div class="favorites-actions">
+            <label class="check-row">
+              <input id="favoriteOnlyToggle" type="checkbox">
+              <span>履修候補のみ</span>
+            </label>
+            <button id="shareTimetableButton" class="primary-button" type="button">共有</button>
+            <button id="importShareDataButton" class="ghost-button" type="button">共有データを読込</button>
+            <input id="importShareDataInput" class="is-visually-hidden" type="file" accept="application/json,.json">
+            <button id="clearFavoritesButton" class="ghost-button" type="button">全解除</button>
+          </div>
+        </div>
+        <div id="shareImportPanel" class="share-import is-hidden" role="status">
+          <div>
+            <strong>共有された履修データがあります</strong>
+            <p id="shareImportSummary"></p>
+          </div>
+          <div class="share-import-actions">
+            <button id="importSharedReplaceButton" class="primary-button" type="button">共有内容で置き換える</button>
+            <button id="importSharedMergeButton" class="ghost-button" type="button">現在のデータに追加</button>
+            <button id="dismissSharedButton" class="ghost-button" type="button">閉じる</button>
+          </div>
+        </div>
+        <div id="shareNotice" class="share-notice is-hidden" role="status"></div>
+        <div id="favoriteAlerts" class="favorite-alerts"></div>
+
+        <div class="favorites-lists">
+          <details class="favorite-list-block schedule-block" open>
+            <summary id="favoriteScheduleHeading">時間割表</summary>
+            <div id="favoriteScheduleList" class="favorite-list"></div>
+          </details>
+          <details class="favorite-list-block">
+            <summary id="favoriteCodeHeading">授業コード順</summary>
+            <div id="favoriteCodeList" class="favorite-list"></div>
+          </details>
+        </div>
+
+
+        <details class="external-course-details">
+          <summary>他大学授業を履修候補に追加</summary>
+          <p class="degree-help">帯広畜産大学・北見工業大学などの単位互換科目を手動で追加できます。卒業要件への算入は「認定見込み」として試算し、実際の認定結果を優先してください。</p>
+          <div class="external-course-form">
+            <label class="profile-field">
+              <span>大学名</span>
+              <input id="externalUniversityInput" type="text" list="externalUniversityList" placeholder="例: 北見工業大学">
+              <datalist id="externalUniversityList">
+                <option value="帯広畜産大学"></option>
+                <option value="北見工業大学"></option>
+              </datalist>
+            </label>
+            <label class="profile-field external-course-name-field">
+              <span>科目名</span>
+              <input id="externalSubjectInput" type="text" placeholder="科目名">
+            </label>
+            <label class="profile-field">
+              <span>単位数</span>
+              <input id="externalCreditsInput" type="number" min="0.5" max="12" step="0.5" value="2">
+            </label>
+            <label class="profile-field">
+              <span>開講区分</span>
+              <select id="externalTermInput">
+                <option value="spring">前期</option>
+                <option value="fall">後期</option>
+                <option value="full">通年</option>
+                <option value="summerIntensive">夏期集中</option>
+                <option value="winterIntensive">冬季集中</option>
+                <option value="otherIntensive">その他集中・特別日程</option>
+              </select>
+            </label>
+            <label class="profile-field external-schedule-field">
+              <span>曜限・日程</span>
+              <input id="externalScheduleInput" type="text" placeholder="例: 月3 / 8/24-28 / 日程未定">
+            </label>
+            <label class="profile-field">
+              <span>卒業要件への認定見込み</span>
+              <select id="externalBucketInput">
+                <option value="unallocated">総単位のみ（区分未確定）</option>
+                <option value="knowledge">知（地）の基礎</option>
+                <option value="humanCulture">人間と文化</option>
+                <option value="societyHuman">社会と人間</option>
+                <option value="natureEnvironment">自然と環境</option>
+                <option value="health">健康科学</option>
+                <option value="foreign">外国語科目</option>
+                <option value="commonOther">その他の共通科目等</option>
+                <option value="academicUnassigned">学科科目（学科未確定）</option>
+                <option value="ownCore">自学科基幹科目</option>
+                <option value="ownAdvanced">自学科発展科目</option>
+                <option value="academicFlex">その他学科・専門共通等</option>
+              </select>
+            </label>
+            <label class="check-row external-check-row">
+              <input id="externalCapInput" type="checkbox">
+              <span>今年度CAPに含める</span>
+            </label>
+            <label class="check-row external-check-row">
+              <input id="externalRemoteInput" type="checkbox">
+              <span>遠隔授業60単位枠に含める</span>
+            </label>
+            <button id="addExternalCourseButton" class="primary-button external-add-button" type="button">他大学授業を追加</button>
+          </div>
+          <p id="externalCourseHelp" class="degree-help">他大学との単位互換は、正式に認定された単位と合わせて60単位上限の対象です。CAP対象かどうかは当該年度の案内に合わせて設定してください。</p>
+          <div id="externalCourseList" class="external-course-list"></div>
+        </details>
+
+      </section>
+
+      <section class="result-panel css-collapsible" aria-live="polite">
+        <input class="panel-toggle-control" id="panel-toggle-results" type="checkbox">
+        <div class="result-bar">
+          <div class="panel-heading-title-row">
+            <strong id="resultCount">0件</strong>
+            <span id="activeSummary"></span>
+            <label class="section-collapse-toggle" for="panel-toggle-results" aria-label="シラバス検索結果を開閉" title="折りたたむ / 開く">
+              <span class="collapse-label-open">折りたたむ</span><span class="collapse-label-closed">開く</span><span class="collapse-icon-open" aria-hidden="true">−</span><span class="collapse-icon-closed" aria-hidden="true">＋</span>
+            </label>
+          </div>
+          <div class="result-bar-actions">
+            <button id="openCompareButton" class="ghost-button compare-open-button" type="button" disabled>比較 0/4</button>
+            <button id="clearCompareButton" class="ghost-button compare-clear-button" type="button" disabled>比較を解除</button>
+            <label class="sort-box">
+              <span>並び替え</span>
+              <select id="sortSelect">
+                <option value="no">掲載順</option>
+                <option value="subject">科目名</option>
+                <option value="category">科目区分</option>
+                <option value="period">曜限</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div id="compareTray" class="compare-tray is-hidden" aria-live="polite"></div>
+        <div id="results" class="course-list"></div>
+      </section>
+    </main>
+    <dialog id="shareDialog" class="share-dialog">
+      <form method="dialog" class="share-dialog-card">
+        <div class="share-dialog-head">
+          <div>
+            <p class="eyebrow">SHARE</p>
+            <h2>履修データを共有</h2>
+          </div>
+          <button class="dialog-close" value="cancel" aria-label="閉じる">×</button>
+        </div>
+        <p id="shareDialogDescription" class="share-dialog-description">共有する内容を選んでリンクやJSONを作成できます。</p>
+        <div class="share-option-grid" aria-label="共有する内容">
+          <label class="share-option-card">
+            <input id="shareIncludeTimetable" type="checkbox" checked>
+            <span><strong>時間割・履修候補</strong><small>本学科目と手動追加した他大学授業</small></span>
+          </label>
+          <label class="share-option-card">
+            <input id="shareIncludeComparison" type="checkbox">
+            <span><strong>比較中の科目</strong><small>比較リストをそのまま共有</small></span>
+          </label>
+          <label class="share-option-card">
+            <input id="shareIncludeFilters" type="checkbox">
+            <span><strong>検索条件</strong><small>タグ・曜日・時限・並び替え等</small></span>
+          </label>
+          <label class="share-option-card share-option-sensitive">
+            <input id="shareIncludeProfile" type="checkbox">
+            <span><strong>学年・学科・履修設定</strong><small>卒業シミュレーション用の設定</small></span>
+          </label>
+          <label class="share-option-card share-option-sensitive">
+            <input id="shareIncludeProgress" type="checkbox">
+            <span><strong>取得済み科目・単位認定</strong><small>取得済み単位の集計値も含む</small></span>
+          </label>
+        </div>
+        <div id="shareSelectionSummary" class="share-selection-summary" aria-live="polite"></div>
+        <label class="share-url-field">
+          <span>共有URL</span>
+          <input id="shareUrlInput" type="text" readonly>
+        </label>
+        <div class="share-dialog-actions">
+          <button id="copyShareUrlButton" class="primary-button" type="button">URLをコピー</button>
+          <button id="copyShareTextButton" class="ghost-button" type="button">時間割をテキストコピー</button>
+          <button id="downloadShareJsonButton" class="ghost-button" type="button">共有JSONを書き出す</button>
+          <button id="nativeShareButton" class="ghost-button is-hidden" type="button">共有メニューを開く</button>
+          <button class="ghost-button" value="cancel">閉じる</button>
+        </div>
+        <p id="sharePrivacyNote" class="share-privacy-note">既定では時間割・履修候補だけを共有します。共有データはURLの # 以降に格納され、通常のHTTPリクエストではサーバーへ送られません。</p>
+      </form>
+    </dialog>
+    <dialog id="compareDialog" class="compare-dialog">
+      <form method="dialog" class="compare-dialog-card">
+        <div class="compare-dialog-head">
+          <div>
+            <p class="eyebrow">COURSE COMPARISON</p>
+            <h2>授業を比較</h2>
+          </div>
+          <button class="dialog-close" value="cancel" aria-label="閉じる">×</button>
+        </div>
+        <div id="compareTableWrap" class="compare-table-wrap"></div>
+        <div class="compare-dialog-actions">
+          <button id="clearCompareDialogButton" class="ghost-button" type="button">比較対象を全解除</button>
+          <button class="primary-button" value="cancel">閉じる</button>
+        </div>
+      </form>
+    </dialog>
+    
+    
+    
+      <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "courses": 694,
+  "files": {
+    "data/syllabus-2026.json": "0fc1b1fb3070811a5a682cb1183938639e781836c7f1de13fa26fb5c0578f1b9",
+    "data/handbook-rules-2026.json": "049f5cf4a3615f4d29d2ddb5a89a68613703d076bac8cb7ca10607ca911d7d09",
+    "dist-standalone/index.html": "78297890d76fa905f24749789f85f8320948d44fcd3760992a5a28ee8dd6b771"
+  }
+}
